@@ -1,0 +1,11 @@
+name: StarryLobby
+version: '1.0.0-SNAPSHOT'
+main: cn.starry.hub.Main
+authors: [ Starry_Killer ]
+commands:
+  edit:
+    description: a command for edit world
+  vanish:
+    description: a command for vanish staff
+  fly:
+    description: a command for rank player to fly
