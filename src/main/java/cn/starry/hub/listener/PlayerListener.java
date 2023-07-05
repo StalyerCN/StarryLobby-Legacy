@@ -3,6 +3,7 @@ package cn.starry.hub.listener;
 import cn.starry.hub.api.data.PlayerData;
 import cn.starry.hub.api.enums.PlayerState;
 import cn.starry.hub.listener.handler.LobbyHandler;
+import cn.starry.hub.parm.AutoRegister;
 import cn.starry.hub.utils.ColorUtil;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -24,6 +25,7 @@ import java.util.List;
  * @Author: Starry_Killer
  * @Date: 2023/06/14
  */
+@AutoRegister
 public class PlayerListener implements Listener {
 
     private List<Material> blockTypes = new ArrayList<>();
@@ -100,14 +102,6 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onFood(FoodLevelChangeEvent event) {
         event.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onPlayerVoid(PlayerMoveEvent event) {
-        Player player = event.getPlayer();
-        if (player.getLocation().getY() <= 1) {
-            new LobbyHandler().returnToLobby(player);
-        }
     }
 
 }

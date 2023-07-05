@@ -1,5 +1,6 @@
 package cn.starry.hub.functions;
 
+import cn.starry.hub.parm.AutoRegister;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -10,12 +11,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.util.Vector;
 
+@AutoRegister
 public class JumpPad implements Listener {
 
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
         Player p = e.getPlayer();
-        double mult = 1;
+        double mult = 2;
         double y = 1;
         if (p.getLocation().getBlock().getType() == Material.STONE_PLATE) {
             Vector v = p.getLocation().getDirection().multiply(mult).setY(y);

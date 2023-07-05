@@ -2,19 +2,21 @@ package cn.starry.hub;
 
 import cn.starry.hub.commands.admin.EditCommand;
 import cn.starry.hub.commands.admin.VanishCommand;
+import cn.starry.hub.commands.player.SendCommand;
+import cn.starry.hub.commands.player.TimeCommand;
 import cn.starry.hub.commands.rank.FlyCommand;
-import cn.starry.hub.functions.JumpPad;
+import cn.starry.hub.database.MongoDB;
+import cn.starry.hub.functions.menu.SelectorMenu;
 import cn.starry.hub.functions.scoreboard.Scoreboard;
-import cn.starry.hub.listener.ItemListener;
-import cn.starry.hub.listener.LobbyListener;
-import cn.starry.hub.listener.PlayerListener;
-import cn.starry.hub.listener.SoundListener;
+import cn.starry.hub.parm.RegisterListener;
 import cn.starry.hub.utils.ColorUtil;
-import cn.starry.hub.utils.menu.ButtonListener;
 import cn.starry.hub.utils.scoreboard.Assemble;
+import net.minecraft.server.v1_12_R1.MinecraftServer;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.PluginManager;
+import org.bukkit.command.Command;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Arrays;
 
 /**
  * @Author: Starry_Killer
@@ -25,13 +27,24 @@ public final class Main extends JavaPlugin {
     private static Main instance;
 
     private static JavaPlugin plugin;
+
+    private MongoDB database;
     String prefix = "&f[StarryLobby] ";
+
+    String type;
 
     @Override
     public void onEnable() {
-        registerEvents();
+        instance = this;
+        database = new MongoDB();
+        saveDefaultConfig();
+        type = this.getConfig().getString("type");
         registerCommands();
-        loadScoreBoard();
+        loadListeners();
+        if (!type.equalsIgnoreCase("Skywars")) {
+            loadScoreBoard();
+        }
+        Bukkit.getConsoleSender().sendMessage(ColorUtil.color(prefix + "&bPlugin Author - Starry_Killer"));
         Bukkit.getConsoleSender().sendMessage(ColorUtil.color(prefix + "&bPlugin Enable"));
     }
 
@@ -40,22 +53,15 @@ public final class Main extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(ColorUtil.color(prefix + "&bPlugin Disable"));
     }
 
-    private void registerEvents() {
-        final PluginManager manager = this.getServer().getPluginManager();
-        manager.registerEvents(new LobbyListener(), this);
-        manager.registerEvents(new PlayerListener(), this);
-        manager.registerEvents(new ItemListener(), this);
-        manager.registerEvents(new SoundListener(),this);
-        manager.registerEvents(new JumpPad(),this);
-        //Menu
-        manager.registerEvents(new ButtonListener(), this);
-
-    }
-
     private void registerCommands() {
         this.getCommand("edit").setExecutor(new EditCommand());
         this.getCommand("vanish").setExecutor(new VanishCommand());
         this.getCommand("fly").setExecutor(new FlyCommand());
+        this.getCommand("sendto").setExecutor(new SendCommand());
+        this.getCommand("day").setExecutor(new TimeCommand());
+        this.getCommand("sunset").setExecutor(new TimeCommand());
+        this.getCommand("night").setExecutor(new TimeCommand());
+        Arrays.asList(new Command[]{new SelectorMenu()}).forEach(cmd -> MinecraftServer.getServer().server.getCommandMap().register(cmd.getName(), this.getName(), cmd));
     }
 
     private void loadScoreBoard() {
@@ -65,10 +71,19 @@ public final class Main extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(ColorUtil.color(prefix + "&bScoreBoard Load Successfully!"));
     }
 
-
-    public static Main getInstance() {
-        return Main.instance;
+    private void loadListeners() {
+        Bukkit.getConsoleSender().sendMessage(ColorUtil.color(prefix + "&bTry to Load Listeners..."));
+        RegisterListener.registerListeners(this, "cn.starry.hub");
+        Bukkit.getConsoleSender().sendMessage(ColorUtil.color(prefix + "&bListeners Load Successfully!"));
     }
 
+
+    public static Main getInstance() {
+        return instance;
+    }
+
+    public MongoDB getPlayerData() {
+        return database;
+    }
 
 }

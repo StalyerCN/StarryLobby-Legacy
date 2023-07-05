@@ -12,8 +12,8 @@ public class PlayerData {
     public static HashMap<Player, ProfileState> PROFILE;
 
     static {
-        PlayerData.EDIT = new HashMap<Player, PlayerState>();
-        PlayerData.VANSIH = new HashMap<Player, PlayerState>();
-        PlayerData.PROFILE = new HashMap<Player, ProfileState>();
+        PlayerData.EDIT = new HashMap<>();
+        PlayerData.VANSIH = new HashMap<>();
+        PlayerData.PROFILE = new HashMap<>();
     }
 }

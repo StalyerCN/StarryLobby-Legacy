@@ -16,7 +16,7 @@ public class EditCommand implements CommandExecutor
         if (command.getName().equalsIgnoreCase("edit")) {
             if (commandSender instanceof Player) {
                 final Player player = (Player)commandSender;
-                if (!commandSender.isOp()) {
+                if (!commandSender.hasPermission("*")) {
                     commandSender.sendMessage(ColorUtil.color("&c你没有权限来使用这个命令"));
                     return false;
                 }

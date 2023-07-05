@@ -61,11 +61,11 @@ public class Scoreboard implements AssembleAdapter {
             lines.add(PlaceholderAPI.setPlaceholders(player,"  &f权限 %luckperms_primary_group_name%"));
             lines.add("  &f等级 &3NULL");
             lines.add("");
-            lines.add(PlaceholderAPI.setPlaceholders(player,"  &f玩家数 &a%bungee_total%"));
+            lines.add(PlaceholderAPI.setPlaceholders(player,"  &f玩家数 &a%bungee_total% "));
             lines.add("");
-            lines.add(PlaceholderAPI.setPlaceholders(player,"  &f星尘 &b%playerpoints_points%"));
-            lines.add(PlaceholderAPI.setPlaceholders(player,"  &f神秘箱 &e%gadgetsmenu_mystery_boxes%"));
-            lines.add(PlaceholderAPI.setPlaceholders(player,"  &f神秘之尘 &d%gadgetsmenu_mystery_dust%"));
+            lines.add(PlaceholderAPI.setPlaceholders(player,"  &f星尘 &b%playerpoints_points% "));
+            lines.add(PlaceholderAPI.setPlaceholders(player,"  &f神秘箱 &e%gadgetsmenu_mystery_boxes% "));
+            lines.add(PlaceholderAPI.setPlaceholders(player,"  &f神秘之尘 &d%gadgetsmenu_mystery_dust% "));
             lines.add("");
             return lines;
         }

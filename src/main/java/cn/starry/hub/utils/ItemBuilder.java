@@ -1,9 +1,13 @@
 package cn.starry.hub.utils;
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -12,8 +16,10 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Field;
+import java.util.*;
+
+import static com.comphenix.protocol.utility.Constants.NMS;
 
 /**
  * @Author: EmptyIrony
@@ -21,6 +27,7 @@ import java.util.List;
  * @Date: 2023/6/15
  */
 public class ItemBuilder {
+
     private ItemStack is;
 
     public ItemBuilder(Material mat) {
@@ -59,6 +66,19 @@ public class ItemBuilder {
         SkullMeta im = (SkullMeta) is.getItemMeta();
         im.setOwner(owner);
         is.setItemMeta(im);
+        return this;
+    }
+
+    public ItemBuilder setNewSkullOwner(Player player) {
+        ItemMeta meta = this.is.getItemMeta();
+        try {
+            Field f = meta.getClass().getDeclaredField("profile");
+            f.setAccessible(true);
+            f.set(meta, player.getClass().getDeclaredMethod("getProfile").invoke(player));
+        } catch (ReflectiveOperationException e) {
+            Bukkit.getConsoleSender().sendMessage("Unexpected error ocurred profile on skull");
+        }
+        this.is.setItemMeta(meta);
         return this;
     }
 

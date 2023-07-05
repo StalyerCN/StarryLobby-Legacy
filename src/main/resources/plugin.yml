@@ -2,6 +2,7 @@ name: StarryLobby
 version: '1.0.0-SNAPSHOT'
 main: cn.starry.hub.Main
 authors: [ Starry_Killer ]
+softdepend: [ ProtocolLib, PlayerBalancerAddon, PlaceHolderAPI, LuckPerms ]
 commands:
   edit:
     description: a command for edit world
@@ -9,3 +10,11 @@ commands:
     description: a command for vanish staff
   fly:
     description: a command for rank player to fly
+  sendto:
+    description: a command for player send to other server
+  day:
+    description: a command for set player time to day
+  sunset:
+    description: a command for set player time to sunset
+  night:
+    description: a command for set player time to night
